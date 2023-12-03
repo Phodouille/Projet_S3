@@ -14,6 +14,7 @@ int main() {
         fprintf(stderr, "Failed to create list.\n");
         return 1;
     }
+    display_list(list);
 
     // Insérer des cellules dans la liste avec des valeurs allant de 10 à 50
     for (int value = 10; value <= 50; value += 10) {
@@ -32,7 +33,7 @@ int main() {
     display_level(list, 2);
 
     // Afficher la liste à niveaux
-    printf("Affichage de tous les niveaux:\n");
+    printf("Affichage de la list apres insertion:\n");
     display_list(list);
 
     // Nettoyer
