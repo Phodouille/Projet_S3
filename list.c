@@ -2,6 +2,9 @@
 #include "cell.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
 
 t_d_list *create_list(int max_level) {
     t_d_list *list = (t_d_list *)malloc(sizeof(t_d_list));
@@ -141,4 +144,107 @@ t_d_cell *find_cell(t_d_list *list, int value) {
 
     return NULL; // La valeur n'a pas été trouvée dans la liste.
 }
+
+
+void measure_search_performance(t_d_list *list) {
+    const int num_searches = 10000;
+    int successes = 0;
+    clock_t start, end;
+    double cpu_time_used;
+
+    // Mesure de la recherche classique
+    start = clock();
+    for (int i = 0; i < num_searches; ++i) {
+        int random_value = rand() % ((1 << (list->max_level + 1)) - 1) + 1;
+        if (search_classic(list, random_value)) {
+            successes++;
+        }
+    }
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Classic search: %f seconds\n", cpu_time_used);
+
+    // Mesure de la recherche optimisée
+    successes = 0;
+    start = clock();
+    for (int i = 0; i < num_searches; ++i) {
+        int random_value = rand() % ((1 << (list->max_level + 1)) - 1) + 1;
+        if (search_optimized(list, random_value)) {
+            successes++;
+        }
+    }
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Optimized search: %f seconds\n", cpu_time_used);
+}
+
+t_d_cell *search_classic(t_d_list *list, int value) {
+    t_d_cell *current = list->header[0];
+    while (current && current->value != value) {
+        current = current->forward[0];
+    }
+    return current; // Retourne la cellule trouvée ou NULL
+}
+
+t_d_cell *search_optimized(t_d_list *list, int value) {
+    int level = list->max_level;
+    t_d_cell *current = list->header[level];
+    while (level >= 0) {
+        while (current->forward[level] && current->forward[level]->value < value) {
+            current = current->forward[level];
+        }
+        if (current->forward[level] && current->forward[level]->value == value) {
+            return current->forward[level]; // Trouvé à un niveau supérieur
+        }
+        level--; // Descendre d'un niveau
+    }
+    return NULL; // Non trouvé
+}
+
+#include "list.h"
+
+
+
+t_d_list *create_skip_list(int n) {
+    int size = (1 << n) - 1; // 2^n - 1
+    t_d_list *list = create_list(n); // suppose que create_list est correctement implémentée
+    int *levels = malloc(size * sizeof(int));
+
+    if (levels == NULL) {
+        fprintf(stderr, "Memory allocation for levels failed\n");
+        // Supposer qu'une fonction free_list existe pour nettoyer la liste
+        free_list(list);
+        return NULL;
+    }
+
+    // Initialisez les niveaux à 0
+    memset(levels, 0, size * sizeof(int));
+    // Calculez les niveaux comme spécifié dans le cahier des charges
+    calculate_levels(levels, n);
+
+    // Ajoutez les cellules à la liste à niveaux
+    for (int i = 0; i < size; i++) {
+        t_d_cell *new_cell = create_cell(i + 1, levels[i]);
+        if (new_cell == NULL) {
+            fprintf(stderr, "Failed to create cell for value %d\n", i + 1);
+            continue;
+        }
+        insert_cell(list, new_cell);
+    }
+
+    free(levels);
+    return list;
+}
+
+void calculate_levels(int *levels, int n) {
+    int step = 1;
+    for (int level = 0; level < n; level++) {
+        for (int j = step - 1; j < (1 << n); j += step * 2) {
+            levels[j] = level;
+        }
+        step *= 2;
+    }
+}
+
+
 
