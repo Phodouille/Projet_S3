@@ -26,7 +26,13 @@ int main() {
         insert_cell(list, cell);
     }
 
+
+    // Afficher la liste à un niveau donné
+    printf("Affichage du niveau 2:\n");
+    display_level(list, 2);
+
     // Afficher la liste à niveaux
+    printf("Affichage de tous les niveaux:\n");
     display_list(list);
 
     // Nettoyer
