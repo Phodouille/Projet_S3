@@ -4,13 +4,8 @@
 #include <stdio.h>
 
 t_d_cell *create_cell(int value, int max_level) {
-    int level = random_level(max_level);
+    int level = max_level;
 
-    // Vérifiez le niveau avant d'essayer d'allouer de la mémoire pour la cellule
-    if (level < 0 || level > max_level) {
-        fprintf(stderr, "Error: Cell level is out of valid range.\n");
-        return NULL;
-    }
 
     t_d_cell *cell = malloc(sizeof(t_d_cell));
     if (!cell) {

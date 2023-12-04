@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h> // Pour la fonction pow
 
 int main() {
     srand(time(NULL)); // Initialiser le générateur de nombres aléatoires
@@ -35,6 +36,7 @@ int main() {
     // Afficher la liste à niveaux
     printf("Affichage de la list apres insertion:\n");
     display_list(list);
+
 
     // Nettoyer
     free_list(list);
