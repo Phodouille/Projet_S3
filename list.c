@@ -23,7 +23,7 @@ void free_list(t_d_list *list) {
     t_d_cell *current = list->header[0]; // Commencer par le niveau le plus bas
     while (current != NULL) {
         t_d_cell *temp = current;
-        current = current->forward[0]; // Aller à la cellule suivante au niveau le plus bas
+        current = current->next[0]; // Aller à la cellule suivante au niveau le plus bas
         free_cell(temp); // Libérer la cellule actuelle
     }
 
@@ -53,15 +53,15 @@ void insert_cell(t_d_list *list, t_d_cell *new_cell) {
     // Initialiser les pointeurs de mise à jour
     for (int i = list->max_level; i >= 0; i--) {
         current = list->header[i];
-        while (current->forward[i] != NULL && current->forward[i]->value < new_cell->value) {
-            current = current->forward[i];
+        while (current->next[i] != NULL && current->next[i]->value < new_cell->value) {
+            current = current->next[i];
         }
         update[i] = current;
     }
 
     for (int i = 0; i <= new_cell->level; i++) {
-        new_cell->forward[i] = update[i]->forward[i];
-        update[i]->forward[i] = new_cell;
+        new_cell->next[i] = update[i]->next[i];
+        update[i]->next[i] = new_cell;
     }
 
     free(update);
@@ -76,7 +76,7 @@ void display_list(t_d_list *list) {
 
     // Déterminer l'espacement nécessaire pour chaque valeur
     int max_value_width = 0;
-    for (t_d_cell *cell = list->header[0]->forward[0]; cell != NULL; cell = cell->forward[0]) {
+    for (t_d_cell *cell = list->header[0]->next[0]; cell != NULL; cell = cell->next[0]) {
         int value_width = snprintf(NULL, 0, "%d", cell->value);
         if (value_width > max_value_width) {
             max_value_width = value_width;
@@ -87,12 +87,12 @@ void display_list(t_d_list *list) {
     for (int i = 0; i <= list->max_level; i++) {
         printf("Level %d: header", i);
 
-        t_d_cell *current = list->header[i]->forward[i]; // Commencer par le premier nœud du niveau i
+        t_d_cell *current = list->header[i]->next[i]; // Commencer par le premier nœud du niveau i
 
         // Parcourir la liste à ce niveau
         while (current != NULL) {
             printf(" -> %*d", max_value_width, current->value);
-            current = current->forward[i]; // Aller au nœud suivant au niveau i
+            current = current->next[i]; // Aller au nœud suivant au niveau i
         }
 
         printf(" -> NULL\n");
@@ -110,9 +110,9 @@ void display_level(t_d_list *list, int level) {
     printf("Level %d: header", level);
 
     // Parcourir les cellules du niveau spécifié
-    while (current != NULL && current->forward[level] != NULL) {
-        printf(" -> %d", current->forward[level]->value);
-        current = current->forward[level];
+    while (current != NULL && current->next[level] != NULL) {
+        printf(" -> %d", current->next[level]->value);
+        current = current->next[level];
     }
 
     printf(" -> NULL\n");
@@ -129,13 +129,13 @@ t_d_cell *find_cell(t_d_list *list, int value) {
     // Parcourir les niveaux de haut en bas.
     for (int i = list->max_level; i >= 0; i--) {
         // Parcourir les cellules au niveau actuel.
-        while (current->forward[i] != NULL && current->forward[i]->value < value) {
-            current = current->forward[i];
+        while (current->next[i] != NULL && current->next[i]->value < value) {
+            current = current->next[i];
         }
     }
 
     // Après avoir parcouru les niveaux, la position actuelle est juste avant l'emplacement de la valeur recherchée.
-    current = current->forward[0]; // Passer au niveau 0 pour vérifier la valeur.
+    current = current->next[0]; // Passer au niveau 0 pour vérifier la valeur.
 
     // Vérifier si la cellule actuelle a la valeur recherchée.
     if (current != NULL && current->value == value) {
@@ -181,7 +181,7 @@ void measure_search_performance(t_d_list *list) {
 t_d_cell *search_classic(t_d_list *list, int value) {
     t_d_cell *current = list->header[0];
     while (current && current->value != value) {
-        current = current->forward[0];
+        current = current->next[0];
     }
     return current; // Retourne la cellule trouvée ou NULL
 }
@@ -190,11 +190,11 @@ t_d_cell *search_optimized(t_d_list *list, int value) {
     int level = list->max_level;
     t_d_cell *current = list->header[level];
     while (level >= 0) {
-        while (current->forward[level] && current->forward[level]->value < value) {
-            current = current->forward[level];
+        while (current->next[level] && current->next[level]->value < value) {
+            current = current->next[level];
         }
-        if (current->forward[level] && current->forward[level]->value == value) {
-            return current->forward[level]; // Trouvé à un niveau supérieur
+        if (current->next[level] && current->next[level]->value == value) {
+            return current->next[level]; // Trouvé à un niveau supérieur
         }
         level--; // Descendre d'un niveau
     }
@@ -245,5 +245,6 @@ void calculate_levels(int *levels, int n) {
         step *= 2;
     }
 }
+
 
 

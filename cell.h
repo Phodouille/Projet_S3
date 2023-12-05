@@ -3,7 +3,7 @@
 
 typedef struct s_d_cell {
     int value;
-    struct s_d_cell **forward; // Tableau de pointeurs vers la cellule suivante à chaque niveau
+    struct s_d_cell **next; // Tableau de pointeurs vers la cellule suivante à chaque niveau
     int level;
 } t_d_cell;
 

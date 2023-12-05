@@ -13,16 +13,16 @@ t_d_cell *create_cell(int value, int max_level) {
         return NULL;
     }
 
-    // Allocation de mémoire pour les pointeurs 'forward'
-    cell->forward = malloc(sizeof(t_d_cell *) * (max_level + 1));
-    if (!cell->forward) {
-        perror("Unable to allocate memory for the forward pointers");
+    // Allocation de mémoire pour les pointeurs 'next'
+    cell->next = malloc(sizeof(t_d_cell *) * (max_level + 1));
+    if (!cell->next) {
+        perror("Unable to allocate memory for the next pointers");
         free(cell); // Ne pas oublier de libérer la cellule si l'allocation suivante échoue
         return NULL;
     }
 
     for (int i = 0; i <= max_level; i++) {
-        cell->forward[i] = NULL;
+        cell->next[i] = NULL;
     }
 
     cell->value = value;
@@ -34,7 +34,7 @@ t_d_cell *create_cell(int value, int max_level) {
 
 void free_cell(t_d_cell *cell) {
     if (cell) {
-        free(cell->forward);
+        free(cell->next);
         free(cell);
     }
 }
