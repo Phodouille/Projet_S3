@@ -56,7 +56,7 @@ int main() {
     // Insérer des cellules dans la liste avec des valeurs allant de 10 à 50
     int nb_cell = pow(2, max_level2) - 1;
     for (int i = 0; i < nb_cell; i ++) {
-        t_d_cell *cell = create_cell(0, 0);
+        t_d_cell *cell = create_cell(0, rand() % max_level2 + 1);
         if (!cell) {
             fprintf(stderr, "Failed to create a cell.\n");
             free_list(list2);
@@ -81,7 +81,6 @@ int main() {
     display_list(list2);
 
     
-
     // Change les valeurs des cellules en 2 toutes les 4 cellules
     printf("Liste remplie avec 2 cellules sur 4:\n");
     t_d_cell *current2 = list2->header[0]->next[0];
@@ -94,6 +93,26 @@ int main() {
         count2++;
     }
     display_list(list2);
+
+    // test de schearch classique
+    printf("test de schearch classique:\n");
+    t_d_cell *cell = search_classic(list2, 2); // on cherche la cellule qui contient la valeur 2
+    if (cell != NULL) {
+        printf("cellule trouvee\n");
+    } else {
+        printf("cellule non trouvee\n");
+    }
+    printf("la valeur de la cellule est : %d\n", cell->value);
+
+    // test de schearch optimise
+    printf("test de schearch optimise:\n");
+    t_d_cell *cell2 = search_optimized(list2, 3); // on cherche la cellule qui contient la valeur 3
+    if (cell != NULL) {
+        printf("cellule trouvee\n");
+    } else {
+        printf("cellule non trouvee\n");
+    }
+    printf("la valeur de la cellule est : %d\n", cell2->value);
 
     return 0;
 }

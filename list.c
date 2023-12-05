@@ -187,7 +187,7 @@ t_d_cell *search_classic(t_d_list *list, int value) {
 }
 
 t_d_cell *search_optimized(t_d_list *list, int value) {
-    int level = list->max_level;
+    int level = list->max_level - 1;  // Assurez-vous que level est dans les limites du tableau
     t_d_cell *current = list->header[level];
     while (level >= 0) {
         while (current->next[level] && current->next[level]->value < value) {
@@ -200,6 +200,7 @@ t_d_cell *search_optimized(t_d_list *list, int value) {
     }
     return NULL; // Non trouvé
 }
+
 
 #include "list.h"
 
