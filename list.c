@@ -74,7 +74,7 @@ void display_list(t_d_list *list) {
         return;
     }
 
-    // Déterminer l'espacement nécessaire pour chaque valeur
+    // Déterminer l'espacement nécessaire pour chaque valeur PAS NECESSAIRE
     int max_value_width = 0;
     for (t_d_cell *cell = list->head[0]->next[0]; cell != NULL; cell = cell->next[0]) {
         int value_width = snprintf(NULL, 0, "%d", cell->value);

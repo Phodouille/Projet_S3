@@ -32,6 +32,4 @@ int main() {
     }
     printf("Liste remplie:\n");
     display_list(list);
-
 }
-
