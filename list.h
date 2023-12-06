@@ -4,7 +4,7 @@
 #include "cell.h"
 
 typedef struct s_d_list {
-    t_d_cell **header; // Tableau de têtes pour chaque niveau
+    t_d_cell **head; // Tableau de têtes pour chaque niveau
     int max_level;
 } t_d_list;
 

@@ -5,8 +5,7 @@
 
 t_d_cell *create_cell(int value, int max_level) {
     int level = max_level;
-
-
+    
     t_d_cell *cell = malloc(sizeof(t_d_cell));
     if (!cell) {
         perror("Unable to allocate memory for the cell");
@@ -38,6 +37,7 @@ void free_cell(t_d_cell *cell) {
         free(cell);
     }
 }
+
 
 int random_level(int max_level) {
     int level = 0;

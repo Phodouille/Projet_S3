@@ -69,7 +69,7 @@ int main() {
 
     // Change les 0 en 1 une cellule sur 2
     printf("Liste remplie avec 1 cellule sur 2:\n");
-    t_d_cell *current = list2->header[0]->next[0];
+    t_d_cell *current = list2->head[0]->next[0];
     int count = 0;
     while (current != NULL) {
         if (count % 2 != 0) {
@@ -83,7 +83,7 @@ int main() {
     
     // Change les valeurs des cellules en 2 toutes les 4 cellules
     printf("Liste remplie avec 2 cellules sur 4:\n");
-    t_d_cell *current2 = list2->header[0]->next[0];
+    t_d_cell *current2 = list2->head[0]->next[0];
     int count2 = 1;
     while (current2 != NULL) {
         if (count2 % 4 == 0) {
@@ -105,14 +105,14 @@ int main() {
     printf("la valeur de la cellule est : %d\n", cell->value);
 
     // test de schearch optimise
-    printf("test de schearch optimise:\n");
+    /*printf("test de schearch optimise:\n");
     t_d_cell *cell2 = search_optimized(list2, 3); // on cherche la cellule qui contient la valeur 3
     if (cell != NULL) {
         printf("cellule trouvee\n");
     } else {
         printf("cellule non trouvee\n");
     }
-    printf("la valeur de la cellule est : %d\n", cell2->value);
+    printf("la valeur de la cellule est : %d\n", cell2->value);*/
 
     return 0;
 }
