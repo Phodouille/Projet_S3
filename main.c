@@ -105,16 +105,17 @@ int main() {
     }
     printf("la valeur de la cellule est : %d\n", cell->value);
 
-    // test de schearch optimise
-    /*printf("test de schearch optimise:\n");
-    t_d_cell *cell2 = search_optimized(list2, 3); // on cherche la cellule qui contient la valeur 3
-    if (cell != NULL) {
+
+    printf("test de schearch optimise:\n");
+    t_d_cell *cell3 = search_optimized(list2, 2); // on cherche la cellule qui contient la valeur 2
+    if (cell3 != NULL) {
         printf("cellule trouvee\n");
+        printf("la valeur de la cellule est : %d\n", cell3->value);
     } else {
         printf("cellule non trouvee\n");
     }
-    printf("la valeur de la cellule est : %d\n", cell2->value);*/
 
+    printf("test de mesure de performance:\n");
     measure_search_performance(list2);
 
     return 0;

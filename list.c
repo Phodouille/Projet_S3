@@ -146,37 +146,6 @@ t_d_cell *find_cell(t_d_list *list, int value) {
 }
 
 
-/*void measure_search_performance(t_d_list *list) {
-    const int num_searches = 10000;
-    int successes = 0;
-    clock_t start, end;
-    double cpu_time_used;
-
-    // Mesure de la recherche classique
-    start = clock();
-    for (int i = 0; i < num_searches; ++i) {
-        int random_value = rand() % ((1 << (list->max_level + 1)) - 1) + 1;
-        if (search_classic(list, random_value)) {
-            successes++;
-        }
-    }
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("Classic search: %f seconds\n", cpu_time_used);
-
-    // Mesure de la recherche optimisée
-    successes = 0;
-    start = clock();
-    for (int i = 0; i < num_searches; ++i) {
-        int random_value = rand() % ((1 << (list->max_level + 1)) - 1) + 1;
-        if (search_optimized(list, random_value)) {
-            successes++;
-        }
-    }
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("Optimized search: %f seconds\n", cpu_time_used);
-}*/
 
 void measure_search_performance(t_d_list *list) {
     const int num_searches = 10000;
@@ -215,22 +184,30 @@ t_d_cell *search_classic(t_d_list *list, int value) {
     return current; // Retourne la cellule trouvée ou NULL
 }
 
-t_d_cell *search_optimized(t_d_list *list, int value) {
-    int level = list->max_level - 1;  // Assurez-vous que level est dans les limites du tableau
-    t_d_cell *current = list->head[level];
-    while (level >= 0) {
-        while (current->next[level] && current->next[level]->value < value) {
-            current = current->next[level];
-        }
-        if (current->next[level] && current->next[level]->value == value) {
-            return current->next[level]; // Trouvé à un niveau supérieur
-        }
-        level--; // Descendre d'un niveau
+
+
+ t_d_cell *search_optimized(t_d_list* list, int value) {
+    if (list == NULL || list->head == NULL || list->max_level <= 0) {
+        return NULL;  // Liste invalide
     }
-    return NULL; // Non trouvé
+
+    t_d_cell* cell = list->head[list->max_level - 1];
+    int cur_level = list->max_level - 1;
+
+    while (cur_level >= 0 && cell != NULL) {
+        if (cell->value == value) {
+            return cell;  // Élément trouvé
+        } else if (cell->value > value) {
+            cur_level--;  // Déplacer vers le niveau inférieur
+        } else if (cell->next[cur_level] == NULL || cell->next[cur_level]->value > value) {
+            cur_level--;  // Descendre d'un niveau
+        } else {
+            cell = cell->next[cur_level];  // Passer au prochain élément sur le même niveau
+        }
+    }
+
+    return NULL;  // Élément non trouvé
 }
-
-
 
 t_d_list *create_skip_list(int n) {
     int size = (1 << n) - 1; // 2^n - 1
