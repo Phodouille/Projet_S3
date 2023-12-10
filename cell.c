@@ -38,11 +38,3 @@ void free_cell(t_d_cell *cell) {
     }
 }
 
-
-int random_level(int max_level) {
-    int level = 0;
-    while (rand() < RAND_MAX / 2 && level < max_level) { // P(1/2) de monter d'un niveau
-        level++;
-    }
-    return level;
-}

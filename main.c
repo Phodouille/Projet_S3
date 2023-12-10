@@ -117,6 +117,24 @@ int main() {
 
     printf("test de mesure de performance:\n");
     measure_search_performance(list2);
+ 
+    ////// Remplissage PARTIE 2 (ne marche pas) ///////
+    /*display_list(list2);
+
+    for (int i = 0; i < list2->max_level; i++){
+        t_d_cell *current = list2->head[i];
+        for (int j = 0; j < nb_cell; j++)  {
+            current->value = j + 1;
+            if (current->value % (int)pow(2, i)-1 != 0) {
+            }
+            else{
+                current->value = 0;
+            }
+            current = current->next[j];
+        }
+    }
+    display_list(list2);
+    */
 
     return 0;
 }
