@@ -57,7 +57,7 @@ int main() {
     // Insérer des cellules dans la liste avec des valeurs allant de 10 à 50
     int nb_cell = pow(2, max_level2) - 1;
     for (int i = 0; i < nb_cell; i ++) {
-        t_d_cell *cell = create_cell(0, rand() % max_level2 + 1);
+        t_d_cell *cell = create_cell(0, max_level2);
         if (!cell) {
             fprintf(stderr, "Failed to create a cell.\n");
             free_list(list2);
