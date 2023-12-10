@@ -8,14 +8,14 @@ t_d_cell *create_cell(int value, int max_level) {
     
     t_d_cell *cell = malloc(sizeof(t_d_cell));
     if (!cell) {
-        perror("Unable to allocate memory for the cell");
+        perror("ERREUR : Impossible d'allouer de la mémoire pour la cellule");
         return NULL;
     }
 
     // Allocation de mémoire pour les pointeurs 'next'
     cell->next = malloc(sizeof(t_d_cell *) * (max_level + 1));
     if (!cell->next) {
-        perror("Unable to allocate memory for the next pointers");
+        perror("ERREUR : Impossible d'allouer de la mémoire pour les pointeurs 'next'");
         free(cell); // Ne pas oublier de libérer la cellule si l'allocation suivante échoue
         return NULL;
     }
