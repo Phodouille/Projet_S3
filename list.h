@@ -2,6 +2,8 @@
 #define LIST_H
 
 #include "cell.h"
+#include "timer.h"
+
 
 typedef struct s_d_list {
     t_d_cell **head; // Tableau de têtes pour chaque niveau
@@ -20,4 +22,6 @@ t_d_list *create_skip_list(int n);
 void calculate_levels(int *levels, int n);
 t_d_cell *search_classic(t_d_list *list, int value);
 t_d_cell *search_optimized(t_d_list *list, int value);
+
+
 #endif // LIST_H

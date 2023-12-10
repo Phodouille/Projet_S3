@@ -146,7 +146,7 @@ t_d_cell *find_cell(t_d_list *list, int value) {
 }
 
 
-void measure_search_performance(t_d_list *list) {
+/*void measure_search_performance(t_d_list *list) {
     const int num_searches = 10000;
     int successes = 0;
     clock_t start, end;
@@ -176,6 +176,35 @@ void measure_search_performance(t_d_list *list) {
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
     printf("Optimized search: %f seconds\n", cpu_time_used);
+}*/
+
+void measure_search_performance(t_d_list *list) {
+    const int num_searches = 10000;
+    int successes = 0;
+
+    // Mesure de la recherche classique
+    startTimer();
+    for (int i = 0; i < num_searches; ++i) {
+        int random_value = rand() % ((1 << (list->max_level + 1)) - 1) + 1;
+        if (search_classic(list, random_value)) {
+            successes++;
+        }
+    }
+    stopTimer();
+    printf("Classic search: %s seconds\n", getTimeAsString());
+
+    // Mesure de la recherche optimisée
+    successes = 0;
+    startTimer();
+    for (int i = 0; i < num_searches; ++i) {
+        
+        int random_value = rand() % ((1 << (list->max_level + 1)) - 1) + 1;
+        if (search_optimized(list, random_value)) {
+            successes++;
+        }
+    }
+    stopTimer();
+    printf("Optimized search: %s seconds\n", getTimeAsString());
 }
 
 t_d_cell *search_classic(t_d_list *list, int value) {
@@ -200,9 +229,6 @@ t_d_cell *search_optimized(t_d_list *list, int value) {
     }
     return NULL; // Non trouvé
 }
-
-
-#include "list.h"
 
 
 

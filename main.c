@@ -1,5 +1,6 @@
 #include "list.h"
 #include "cell.h"
+#include "timer.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -113,6 +114,8 @@ int main() {
         printf("cellule non trouvee\n");
     }
     printf("la valeur de la cellule est : %d\n", cell2->value);*/
+
+    measure_search_performance(list2);
 
     return 0;
 }
